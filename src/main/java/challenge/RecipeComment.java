@@ -16,7 +16,7 @@ public class RecipeComment implements Serializable {
 	private String comment;
 
 	public RecipeComment() {
-		this.id = UUID.randomUUID().toString();
+		this.id = UUID.randomUUID().toString().replaceAll("\\-", "");
 	}
 
 	private RecipeComment(String comment) {

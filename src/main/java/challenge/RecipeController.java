@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(name = "recipe")
+@RequestMapping("recipe")
 public class RecipeController {
 
 	@Autowired
@@ -28,52 +28,52 @@ public class RecipeController {
 	}
 
 	@PutMapping("{id}")
-	public void update(@PathVariable("id") String id, @Valid @RequestBody Recipe recipe) {
+	public void update(@PathVariable String id, @Valid @RequestBody Recipe recipe) {
 		service.update(id, recipe);
 	}
 
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable String id) {
 		service.delete(id);
 	}
 
 	@GetMapping("{id}")
-	public Recipe get(@PathVariable("id") String id) {
+	public Recipe get(@PathVariable String id) {
 		return service.get(id);
 	}
 
-	@GetMapping("ingredient")
-	public List<Recipe> listByIngredient(@RequestParam("ingredient") String ingredient) {
+	@GetMapping("/ingredient")
+	public List<Recipe> listByIngredient(@RequestParam(name = "ingredient") String ingredient) {
 		return service.listByIngredient(ingredient);
 	}
 
-	@GetMapping("search")
-	public List<Recipe> search(@RequestParam("search") String search) {
+	@GetMapping("/search")
+	public List<Recipe> search(@RequestParam(name = "search") String search) {
 		return service.search(search);
 	}
 
-	@PostMapping("/recipe/{id}/like/{userId}")
-	public void like(@PathVariable("id") String id, @PathVariable("userId") String userId) {
+	@PostMapping("/{id}/like/{userId}")
+	public void like(@PathVariable String id, @PathVariable String userId) {
 		service.like(id, userId);
 	}
 
-	@DeleteMapping("/recipe/{id}/like/{userId}")
-	public void unlike(@PathVariable("id") String id, @PathVariable("userId") String userId) {
+	@DeleteMapping("/{id}/like/{userId}")
+	public void unlike(@PathVariable String id, @PathVariable String userId) {
 		service.unlike(id, userId);
 	}
 
-	@PostMapping("/recipe/{id}/comment")
-	public RecipeComment addComment(@PathVariable("id") String id, @Valid @RequestBody RecipeComment comment) {
+	@PostMapping("/{id}/comment")
+	public RecipeComment addComment(@PathVariable String id, @Valid @RequestBody RecipeComment comment) {
 		return service.addComment(id, comment);
 	}
 
-	@PutMapping("/recipe/{id}/comment/{commentId}")
-	public void updateComment(@PathVariable("id") String id, @PathVariable("commentId") String commentId, @Valid @RequestBody RecipeComment comment) {
+	@PutMapping("/{id}/comment/{commentId}")
+	public void updateComment(@PathVariable String id, @PathVariable String commentId, @Valid @RequestBody RecipeComment comment) {
 		service.updateComment(id, commentId, comment);
 	}
 
-	@DeleteMapping("/recipe/{id}/comment/{commentId}")
-	public void deleteComment(@PathVariable("id") String id, @PathVariable("commentId") String commentId) {
+	@DeleteMapping("/{id}/comment/{commentId}")
+	public void deleteComment(@PathVariable String id, @PathVariable String commentId) {
 		service.deleteComment(id, commentId);
 	}
 

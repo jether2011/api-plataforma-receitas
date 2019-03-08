@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,7 +45,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public List<Recipe> listByIngredient(String ingredient) {
-		return this.recipeRepository.findByIngredients(ingredient)
+		return this.recipeRepository.findAllByIngredients(ingredient)
 						.stream()
 						.sorted(Comparator.comparing(Recipe::getTitle))
 						.collect(Collectors.toList());
@@ -54,8 +53,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public List<Recipe> search(String search) {
-		TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingAny(search);
-		return this.recipeRepository.findByTitleAndDescription(criteria)
+		return this.recipeRepository.findAllByTitleAndDescription(search)
 						.stream()
 						.sorted(Comparator.comparing(Recipe::getTitle))
 						.collect(Collectors.toList());

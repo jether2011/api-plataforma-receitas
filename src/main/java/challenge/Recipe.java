@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Classe para mapear a receita no MongoDB
@@ -20,10 +23,16 @@ public class Recipe implements Serializable {
 
 	@Id
 	private String id;
+	@TextIndexed
 	private String title;
+	@TextIndexed
 	private String description;
+	
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<String> likes = new ArrayList<String>();
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<String> ingredients = new ArrayList<String>();
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<RecipeComment> comments = new ArrayList<RecipeComment>();
 
 	public void addLike(String like) {
@@ -71,13 +80,8 @@ public class Recipe implements Serializable {
 	}
 	
 	public void updateRecipeComment(String commentId, RecipeComment comment) {
-		this.comments
-				.stream()
-				.filter(c -> c.getId().equals(commentId))
-				.map(toUpdate -> {
-					toUpdate.setComment(comment.getComment());
-					return toUpdate;
-				});
+		RecipeComment update = this.comments.stream().filter(c -> c.getId().equals(commentId)).findFirst().get();
+		update.setComment(comment.getComment());
 	}
 	
 	public void removeRecipeComment(String commentId) {
